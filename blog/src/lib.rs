@@ -1,5 +1,51 @@
-use std::io::SeekFrom;
 
+
+pub struct Post {
+    content: String,
+}
+
+pub struct DraftPost {
+    content: String,
+}
+
+impl Post {
+    pub fn new() -> DraftPost {
+        DraftPost {
+            content: String::new(),
+        }
+    }
+
+    pub fn content(&self) -> &str {
+        &self.content
+    }
+}
+
+impl DraftPost {
+    pub fn add_text(&mut self, text: &str) {
+        self.content.push_str(text);
+    }
+
+    pub fn request_review(self) -> PendingReviewPost {
+        PendingReviewPost {
+            content: self.content,
+        }
+    }
+}
+
+pub struct PendingReviewPost {
+    content: String,
+}
+
+impl PendingReviewPost {
+    pub fn approve(self) -> Post {
+        Post {
+            content: self. content,
+        }
+    }
+}
+
+
+/*
 pub struct Post {
     state: Option<Box<dyn State>>,
     content: String,
@@ -26,7 +72,7 @@ impl Post {
             self.state = Some(s.request_review())
         }
     }
-    
+
     pub fn approve(&mut self) {
         if let Some(s) = self.state.take() {
             self.state = Some(s.approve())
@@ -111,3 +157,4 @@ impl State for Reject {
         &post.
     }
 }
+*/
